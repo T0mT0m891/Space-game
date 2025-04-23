@@ -59,27 +59,39 @@ void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct astero
 
 
     int check=0;
+    if (a->xcoord < grid_size && a->ycoord > 0) {
+        for(int i = 0; i<range;i++){
+            if(object_x_coordinate[i]==a->xcoord && object_y_coordinate[i]==a->ycoord){
 
-    for(int i = 0; i<range;i++){
-        if(object_x_coordinate[i]==a->xcoord && object_y_coordinate[i]==a->ycoord){
+                check = 1;
+                break; // i add this command meanig that if it finds something is gonna go outside the loop
+            }
 
-            check = 1;
-            break; // i add this command meanig that if it finds something is gonna go outside the loop
         }
 
-    }
+        if (check == 1){
+            grid[a->xcoord][a->ycoord] = 'a';
+        }else{
+            grid[a->xcoord][a->ycoord] = '.';
+        }
 
-    if (check == 1){
-        grid[a->xcoord][a->ycoord] = 'a';
-    }else{
+        a->xcoord += 1;
+        a->ycoord -= 1;
+
+
+        grid[a->xcoord][a->ycoord] = 'O';
+    }else {
+
         grid[a->xcoord][a->ycoord] = '.';
+
+        a->xcoord = 0; // bottom
+        a->ycoord = grid_size -1; //right
+
+        grid[a->xcoord][a->ycoord] = 'O';
+
     }
 
-    a->xcoord += 1;
-    a->ycoord -= 1;
 
-
-    grid[a->xcoord][a->ycoord] = 'O';
 
 }
 
