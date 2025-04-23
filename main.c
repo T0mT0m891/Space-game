@@ -15,35 +15,30 @@ Write your code in this editor and press "Run" button to compile and execute it.
 #include <stdbool.h>
 
 
-struct player{
-
+struct player {
     int xcoordinates;
     int ycoordinates;
     int oldxcoordinate;
     int oldycoordinate;
-
 };
 
+void playercreation(int object_x_coordinate[], int object_y_coordinate[], int grid_size, char grid[grid_size][grid_size], struct player *p){
 
-
-void playercreation(int object_x_coordinate[], int object_y_coordinate[], int grid_size, char grid[grid_size][grid_size]){
-
-
-    struct player p;
-    p.xcoordinates = grid_size-2;
-    p.ycoordinates = grid_size/ 2;
+//this is the version 2.0 of the function
+    p->xcoordinates = grid_size-2;
+    p->ycoordinates = grid_size/ 2;
 
     for(int i = 0; i < grid_size; i++ ){
 
 
-            if(object_x_coordinate[i] == p.xcoordinates && object_y_coordinate[i] == p.ycoordinates){
+            if(object_x_coordinate[i] == p->xcoordinates && object_y_coordinate[i] == p->ycoordinates){
 
-                p.xcoordinates = p.xcoordinates + +1;
-                p.ycoordinates = p.ycoordinates + +1;
+                p->xcoordinates = p->xcoordinates + +1;
+                p->ycoordinates = p->ycoordinates + +1;
             }
     };
 
-    grid[p.xcoordinates][p.ycoordinates] = 'P';
+    grid[p->xcoordinates][p->ycoordinates] = 'P';
 
 
 
@@ -53,12 +48,13 @@ void playercreation(int object_x_coordinate[], int object_y_coordinate[], int gr
 
 void Drawgrid(int difficulty, int grid_size){
 
-
+    struct player p;
 
 
     int object_x_coordinate[difficulty];
     int object_y_coordinate[difficulty];
     char grid[grid_size][grid_size];
+
 
 
 
@@ -89,17 +85,19 @@ void Drawgrid(int difficulty, int grid_size){
 
 
 
-    playercreation(object_x_coordinate,object_y_coordinate,grid_size,grid);
+    playercreation(object_x_coordinate,object_y_coordinate,grid_size,grid,&p);
 
 
-    for(int i = 0; i < grid_size; i++ ){
-        for(int j = 0; j < grid_size; j++){
 
-            printf(" %c ", grid[i][j]);
+        for(int i = 0; i < grid_size; i++ ){
+            for(int j = 0; j < grid_size; j++){
 
+             printf(" %c ", grid[i][j]);
+
+            };
+
+            printf("\n");
         };
-        printf("\n");
-    };
 
 
 
