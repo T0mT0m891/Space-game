@@ -55,17 +55,68 @@ void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct ast
 
     grid[a->xcoord][a->ycoord] = 'O';
 }
+void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct asteroids *a, int object_x_coordinate[], int object_y_coordinate[],int range){
+
+    for(int i = 0; i<range;i++){
+        if(object_x_coordinate[i]==a->xcoord && object_y_coordinate[i]==a->ycoord){
+
+             grid[a->xcoord][a->ycoord] = 'a';
+
+        }else{
+
+            grid[a->xcoord][a->ycoord] = '.';
+        }
+    }
 
 
+    a->xcoord += 1; //function version 1
+    a->ycoord -= 1;
+
+    grid[a->xcoord][a->ycoord] = 'O';
+}
+void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][grid_size],struct player *p){
+
+    // by calling the structure as pointer i can modify the original structure without creating a new one
+    //the changes will persist after the function ends his operation. without pointers the function will just create
+    //a copy of a structure that is then gonna be deleted after the function ends is job
+
+    grid[p->xcoordinates][p->ycoordinates] = '.';
+
+    p->oldxcoordinate = p->xcoordinates;
+    p->oldycoordinate = p->ycoordinates;
+
+    if (direction == 'w'){
+        p->xcoordinates -=1;
+
+    }else if(direction == 's'){
+        p->xcoordinates +=1;
+
+    }else if(direction == 'd'){
+        p->ycoordinates +=1;
+
+
+    }else if(direction == 'a') {
+        p->ycoordinates-=1;
+    }else if(direction == 'f') {
+        *stop = true;
+    }
+    grid[p->xcoordinates][p->ycoordinates] = 'P';
+
+    //add the bounderis for version 2
+}
 void Drawgrid(int difficulty, int grid_size){
 
     struct player p;
+
     struct asteroids a;
+
 
     int object_x_coordinate[difficulty];
     int object_y_coordinate[difficulty];
     char grid[grid_size][grid_size];
+    int decision;
 
+    bool stopgame = false;
 
 
 
@@ -100,6 +151,7 @@ void Drawgrid(int difficulty, int grid_size){
     asteroidscreation(grid_size,grid,&a);
 
 
+    while(stopgame == false){
         for(int i = 0; i < grid_size; i++ ){
             for(int j = 0; j < grid_size; j++){
 
@@ -109,6 +161,27 @@ void Drawgrid(int difficulty, int grid_size){
 
             printf("\n");
         };
+
+
+         char direction;
+
+
+         printf("\nInsert in which direction you want to move");
+         printf("\nFoward => W \n Backward => S \n Right => D \n Left => A \n");
+        printf("Press f in you want to end the game: ");
+         scanf(" %c", &direction);
+         printf("\n");
+
+
+
+        moveplayer(direction,&stopgame,grid_size,grid,&p);
+
+        moveasteroids(grid_size,grid,&a,object_x_coordinate,object_y_coordinate,difficulty);
+
+
+
+
+    }
 
 
 
