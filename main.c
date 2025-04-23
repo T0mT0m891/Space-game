@@ -55,25 +55,37 @@ void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct ast
 
     grid[a->xcoord][a->ycoord] = 'O';
 }
-void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct asteroids *a, int object_x_coordinate[], int object_y_coordinate[],int range){
+void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct asteroids *a, int object_x_coordinate[], int object_y_coordinate[],int range) {
+
+
+    int check=0;
 
     for(int i = 0; i<range;i++){
         if(object_x_coordinate[i]==a->xcoord && object_y_coordinate[i]==a->ycoord){
 
-             grid[a->xcoord][a->ycoord] = 'a';
-
-        }else{
-
-            grid[a->xcoord][a->ycoord] = '.';
+            check = 1;
+            break; // i add this command meanig that if it finds something is gonna go outside the loop
         }
+
     }
 
+    if (check == 1){
+        grid[a->xcoord][a->ycoord] = 'a';
+    }else{
+        grid[a->xcoord][a->ycoord] = '.';
+    }
 
-    a->xcoord += 1; //function version 1
+    a->xcoord += 1;
     a->ycoord -= 1;
 
+
     grid[a->xcoord][a->ycoord] = 'O';
+
 }
+
+
+
+
 void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][grid_size],struct player *p){
 
     // by calling the structure as pointer i can modify the original structure without creating a new one
@@ -100,6 +112,20 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
     }else if(direction == 'f') {
         *stop = true;
     }
+
+    if (p->xcoordinates < 0) {
+        p->xcoordinates = 0;
+    }
+    if (p->ycoordinates < 0) {
+        p->ycoordinates = 0;
+    }
+    if (p->xcoordinates >= grid_size) {
+        p->xcoordinates = grid_size - 1;
+    }
+    if (p->ycoordinates >= grid_size) {
+        p->ycoordinates = grid_size - 1;
+    }
+
     grid[p->xcoordinates][p->ycoordinates] = 'P';
 
     //add the bounderis for version 2
