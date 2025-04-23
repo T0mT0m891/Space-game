@@ -21,6 +21,11 @@ struct player {
     int oldxcoordinate;
     int oldycoordinate;
 };
+struct asteroids{
+
+    int xcoord;
+    int ycoord;
+};
 
 void playercreation(int object_x_coordinate[], int object_y_coordinate[], int grid_size, char grid[grid_size][grid_size], struct player *p){
 
@@ -43,13 +48,19 @@ void playercreation(int object_x_coordinate[], int object_y_coordinate[], int gr
 
 
 };
+void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct asteroids *a){
 
+    a->xcoord = 0; // bottom
+    a->ycoord = grid_size -1; //right
+
+    grid[a->xcoord][a->ycoord] = 'O';
+}
 
 
 void Drawgrid(int difficulty, int grid_size){
 
     struct player p;
-
+    struct asteroids a;
 
     int object_x_coordinate[difficulty];
     int object_y_coordinate[difficulty];
@@ -86,7 +97,7 @@ void Drawgrid(int difficulty, int grid_size){
 
 
     playercreation(object_x_coordinate,object_y_coordinate,grid_size,grid,&p);
-
+    asteroidscreation(grid_size,grid,&a);
 
 
         for(int i = 0; i < grid_size; i++ ){
