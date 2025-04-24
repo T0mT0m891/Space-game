@@ -150,7 +150,8 @@ void heal(struct healthbar *h, struct player *p, struct score *s, int *remaingju
     if(s->score == 0){
 
         printf("YOU NEED TO COLLECT PIECE OF JUNK");
-        
+        return;
+
     }else{
 
         h->health = h->health + 1;
