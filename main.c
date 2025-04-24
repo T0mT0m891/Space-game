@@ -1,12 +1,4 @@
 
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 
 #include <math.h>
 #include <stdio.h>
@@ -60,8 +52,8 @@ void playercreation(int object_x_coordinate[], int object_y_coordinate[], int gr
 };
 void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct asteroids *a){
 
-    a->xcoord = 0; // bottom
-    a->ycoord = grid_size -1; //right
+    a->xcoord = 0; // top
+    a->ycoord = grid_size-1; //right(out of the bounderis wihtout -1)
 
     grid[a->xcoord][a->ycoord] = 'O';
 }
@@ -94,8 +86,8 @@ void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct astero
 
         grid[a->xcoord][a->ycoord] = '.';
 
-        a->xcoord = 0; // bottom
-        a->ycoord = grid_size -1; //right
+        a->xcoord = 0; // top
+        a->ycoord = grid_size -1; //right,(out of the bounderis wihtout -1)
 
         grid[a->xcoord][a->ycoord] = 'O';
 
@@ -146,9 +138,68 @@ void HEALTH(struct healthbar *h,struct asteroids *a, struct player *p,int grid_s
         h->health= h->health -5;
     }
 }
+void heal(struct healthbar *h, struct player *p, struct score *s, int *remaingjunk, int grid_size, char grid[grid_size][grid_size], int object_x_coordinate[], int object_y_coordinate[]){
+
+    int newx;
+    int newy;
+    int right;
+    bool check = false;
+    bool check1 = false;
 
 
-void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][grid_size],struct player *p){
+    if(s->score == 0){
+
+        printf("YOU NEED TO COLLECT PIECE OF JUNK");
+        
+    }else{
+
+        h->health = h->health + 1;
+        s->score = s ->score - 1;
+
+
+
+        while(check == false && check1 == false){
+
+            right = 0;//no collision
+            newx = rand() % grid_size;
+            newy = rand() % grid_size;
+
+            //check for collosion with the existing junk
+
+            for(int i = 0; i<*remaingjunk;i++){
+                if(object_x_coordinate[i] == newx && object_y_coordinate[i] == newy){
+
+                    right = 1; //collisin happen
+                    break;
+                }
+            }
+
+            if(right == 1){
+                check = false;
+            }else{
+                check = true;
+            }
+
+            //check with collisin with player
+            if(p->xcoordinates == newx && p->ycoordinates == newy){
+                check1 = false;
+            }else{
+                check1 = true;
+            }
+        }
+
+
+
+    }
+
+    grid[newx][newy]= 'a';
+    object_x_coordinate[*remaingjunk] = newx;
+    object_y_coordinate[*remaingjunk] = newy;
+
+    (*remaingjunk)++;
+}
+
+void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][grid_size],struct player *p,bool *wantoheal){
 
     // by calling the structure as pointer i can modify the original structure without creating a new one
     //the changes will persist after the function ends his operation. without pointers the function will just create
@@ -173,6 +224,33 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
         p->ycoordinates-=1;
     }else if(direction == 'f') {
         *stop = true;
+    }else if(direction == 'W'){
+
+
+        p->xcoordinates -=1;
+        *wantoheal = true;
+
+
+    }else if(direction == 'S'){
+
+
+        p->xcoordinates +=1;
+        *wantoheal = true;
+
+
+    }else if(direction == 'A'){
+
+
+        p->ycoordinates-=1;
+        *wantoheal = true;
+
+
+    }else if(direction == 'D'){
+
+        p->ycoordinates +=1;
+        *wantoheal = true;
+
+
     }
 
     if (p->xcoordinates < 0) {
@@ -191,7 +269,8 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
     grid[p->xcoordinates][p->ycoordinates] = 'P';
 
     //add the bounderis for version 2
-}void Drawgrid(int difficulty, int grid_size){
+}
+void Drawgrid(int difficulty, int grid_size){
 
   struct player p;
     struct score s;
@@ -206,6 +285,7 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
     bool stopgame = false;
     bool endgame = false;
     bool dead = false;
+    bool wantoheal = false;
 
 
     for(int i = 0; i < difficulty; i++ ){
@@ -264,26 +344,43 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
 
          printf("\nInsert in which direction you want to move");
          printf("\nFoward => W \n Backward => S \n Right => D \n Left => A \n");
+         printf("\nUse the capital letter if you want to move and heal yourself \n");
          printf("Press f in you want to end the game: ");
          scanf(" %c", &direction);
          printf("\n");
 
-        moveplayer(direction,&stopgame,grid_size,grid,&p);
+        moveplayer(direction,&stopgame,grid_size,grid,&p,&wantoheal);
+        if (wantoheal == true && h.health <= 8 ){
+
+            heal(&h,&p,&s,&isjunkthere,grid_size,grid,object_x_coordinate,object_y_coordinate);
+            wantoheal = false;
+        }
         SCORE(&s,&p,object_x_coordinate,object_y_coordinate,&isjunkthere,grid_size,grid);
         moveasteroids(grid_size,grid,&a,object_x_coordinate,object_y_coordinate,difficulty);
         HEALTH(&h,&a,&p,grid_size,grid);
 
 
 
-        if(difficulty==0){//new version
+        if(isjunkthere==0){//new version
 
             endgame = true; // use this function to stop the game if the user collects all the pieces of junk
         }
 
-        if(h.health == 0){
+        if(h.health <= 0){
             dead = true;
         }
     }
+
+    printf("The game has ended\n");
+    printf("Final score: %d\n", s.score);
+    if(h.health <= 0){
+
+        printf("Final health: %d", h.health*0);
+
+    }else{
+        printf("Final health: %d", h.health);
+    }
+
 
 
 
