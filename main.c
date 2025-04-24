@@ -271,7 +271,7 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
 
     //add the bounderis for version 2
 }
-void Drawgrid(int difficulty, int grid_size){
+void Drawgrid(int difficulty, int grid_size,int moves){
 
   struct player p;
     struct score s;
@@ -287,6 +287,7 @@ void Drawgrid(int difficulty, int grid_size){
     bool endgame = false;
     bool dead = false;
     bool wantoheal = false;
+    bool finishmove = false;
 
 
     for(int i = 0; i < difficulty; i++ ){
@@ -323,7 +324,8 @@ void Drawgrid(int difficulty, int grid_size){
     h.health = 10;
     int isjunkthere = difficulty;
 
-    while(stopgame == false && endgame == false && dead == false){
+
+    while(stopgame == false && endgame == false && dead == false && finishmove == false){
         for(int i = 0; i < grid_size; i++ ){
             for(int j = 0; j < grid_size; j++){
 
@@ -342,7 +344,7 @@ void Drawgrid(int difficulty, int grid_size){
           printf("\n           HEALTH: %d\n",h.health);
 
 
-
+        printf("\nRemaining moves: %d\n", moves);
          printf("\nInsert in which direction you want to move");
          printf("\nFoward => W \n Backward => S \n Right => D \n Left => A \n");
          printf("\nUse the capital letter if you want to move and heal yourself \n");
@@ -360,7 +362,7 @@ void Drawgrid(int difficulty, int grid_size){
         moveasteroids(grid_size,grid,&a,object_x_coordinate,object_y_coordinate,difficulty);
         HEALTH(&h,&a,&p,grid_size,grid);
 
-
+        moves = moves -1;
 
         if(isjunkthere==0){//new version
 
@@ -370,10 +372,14 @@ void Drawgrid(int difficulty, int grid_size){
         if(h.health <= 0){
             dead = true;
         }
+        if (moves == 0) {
+            finishmove = true;
+        }
     }
 
     printf("The game has ended\n");
     printf("Final score: %d\n", s.score);
+    printf("Remaining moves: %d\n", moves);
     if(h.health <= 0){
 
         printf("Final health: %d", h.health*0);
@@ -389,7 +395,7 @@ void Drawgrid(int difficulty, int grid_size){
 void gamedifficulty(){
 
     int x;
-    int gridsize, n_junk;
+    int gridsize, n_junk,totalmoves;
 
     printf("\n");
     printf("The difficulty change the amount of junk that needs to be collected and the size of the grid\n");
@@ -402,18 +408,21 @@ void gamedifficulty(){
 
         gridsize = 25;
         n_junk = 5;
+        totalmoves = 100;
 
     }else if (x == 2){
 
         gridsize = 21;
         n_junk = 8;
+        totalmoves = 84;
 
     }else{
         gridsize = 19;
         n_junk = 10;
+        totalmoves = 76;
     }
 
-    Drawgrid(n_junk, gridsize);
+    Drawgrid(n_junk, gridsize,totalmoves);
 };
 
 
