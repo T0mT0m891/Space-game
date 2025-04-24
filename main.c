@@ -104,10 +104,10 @@ void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct astero
 
 
 }
-void SCORE(struct score *s, struct player *p,int object_x_coordinate[], int object_y_coordinate[],int difficulty,int grid_size, char grid[grid_size][grid_size]){
+void SCORE(struct score *s, struct player *p,int object_x_coordinate[], int object_y_coordinate[],int *remaingjunk,int grid_size, char grid[grid_size][grid_size]){
 
 
-    for(int i = 0; i<difficulty; i++){
+    for(int i = 0; i<*remaingjunk; i++){
 
         if(object_x_coordinate[i] == p->xcoordinates && object_y_coordinate[i]==p->ycoordinates){
 
@@ -115,9 +115,16 @@ void SCORE(struct score *s, struct player *p,int object_x_coordinate[], int obje
 
             s->score+=1;
 
-            object_x_coordinate[i] = 0; // mistake here that might need to change in the 2.0 version by giving to
-            //it a non valid coordinate. right the object is not disapering its just going to the 0 0 coordinates
-            object_y_coordinate[i] = 0;
+            //https://www.procoding.org/c-program-delete-an-element-from-array
+            for(int j = i; j < *remaingjunk-1; j++) {
+
+
+                object_x_coordinate[j] = object_x_coordinate[j + 1];
+                object_y_coordinate[j] = object_y_coordinate[j + 1];
+                ;// I need this because i need to decrease the value store in the address pointed by the pointer remainng junk
+
+            }
+            (*remaingjunk)--;
         }
     }
 
@@ -233,7 +240,7 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
 
     s.score= 0;
     h.health = 10;
-
+    int isjunkthere = difficulty;
 
     while(stopgame == false && endgame == false && dead == false){
         for(int i = 0; i < grid_size; i++ ){
@@ -262,7 +269,7 @@ void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][gri
          printf("\n");
 
         moveplayer(direction,&stopgame,grid_size,grid,&p);
-        SCORE(&s,&p,object_x_coordinate,object_y_coordinate,difficulty,grid_size,grid);
+        SCORE(&s,&p,object_x_coordinate,object_y_coordinate,&isjunkthere,grid_size,grid);
         moveasteroids(grid_size,grid,&a,object_x_coordinate,object_y_coordinate,difficulty);
         HEALTH(&h,&a,&p,grid_size,grid);
 
