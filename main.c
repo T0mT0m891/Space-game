@@ -5,29 +5,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include "Spacegameheader.h"
 
-
-struct player {
-    int xcoordinates;
-    int ycoordinates;
-    int oldxcoordinate;
-    int oldycoordinate;
-};
-struct score{
-    int score;
-
-};
-
-struct asteroids{
-
-    int xcoord;
-    int ycoord;
-};
-
-struct healthbar{
-
-    int health;
-};
 
 void playercreation(int object_x_coordinate[], int object_y_coordinate[], int grid_size, char grid[grid_size][grid_size], struct player *p){
 
