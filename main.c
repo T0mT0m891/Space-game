@@ -356,18 +356,26 @@ void Drawgrid(int difficulty, int grid_size,int moves){
         }
     }
 
-    printf("The game has ended\n");
-    printf("Final score: %d\n", s.score);
-    printf("Remaining moves: %d\n", moves);
+    //www.geeksforgeeks.org/fprintf-in-c/
+    FILE *end= fopen("hello.txt", "w");
+
+    fprintf(end,"The game has ended\n");
+    if(s.score == difficulty){
+        fprintf(end,"\nYOU WON!!\n");
+    }else{
+        fprintf(end,"\nYOU LOST\n");
+    }
+    fprintf(end,"Final score: %d\n", s.score);
+    fprintf(end,"Remaining moves: %d\n", moves);
     if(h.health <= 0){
 
-        printf("Final health: %d", h.health*0);
+        fprintf(end,"Final health: %d", h.health*0);
 
     }else{
-        printf("Final health: %d", h.health);
+       fprintf(end,"Final health: %d", h.health);
     }
 
-
+    fclose(end);
 
 
 };
