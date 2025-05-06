@@ -36,45 +36,7 @@ void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct ast
 
     grid[a->xcoord][a->ycoord] = 'O';
 }
-void moveasteroids(int grid_size, char grid[grid_size][grid_size], struct asteroids *a, int object_x_coordinate[], int object_y_coordinate[],int range) {
 
-
-    int check=0;
-    if (a->xcoord < grid_size && a->ycoord > 0) {
-        for(int i = 0; i<range;i++){
-            if(object_x_coordinate[i]==a->xcoord && object_y_coordinate[i]==a->ycoord){
-
-                check = 1;
-                break; // i add this command meanig that if it finds something is gonna go outside the loop
-            }
-
-        }
-
-        if (check == 1){
-            grid[a->xcoord][a->ycoord] = 'a';
-        }else{
-            grid[a->xcoord][a->ycoord] = '.';
-        }
-
-        a->xcoord += 1;
-        a->ycoord -= 1;
-
-
-        grid[a->xcoord][a->ycoord] = 'O';
-    }else {
-
-        grid[a->xcoord][a->ycoord] = '.';
-
-        a->xcoord = 0; // top
-        a->ycoord = grid_size -1; //right,(out of the bounderis wihtout -1)
-
-        grid[a->xcoord][a->ycoord] = 'O';
-
-    }
-
-
-
-}
 void SCORE(struct score *s, struct player *p,int object_x_coordinate[], int object_y_coordinate[],int *remaingjunk,int grid_size, char grid[grid_size][grid_size]){
 
 
@@ -179,77 +141,7 @@ void heal(struct healthbar *h, struct player *p, struct score *s, int *remaingju
     (*remaingjunk)++;
 }
 
-void moveplayer(char direction,bool *stop,int grid_size,char grid[grid_size][grid_size],struct player *p,bool *wantoheal){
 
-    // by calling the structure as pointer i can modify the original structure without creating a new one
-    //the changes will persist after the function ends his operation. without pointers the function will just create
-    //a copy of a structure that is then gonna be deleted after the function ends is job
-
-    grid[p->xcoordinates][p->ycoordinates] = '.';
-
-    p->oldxcoordinate = p->xcoordinates;
-    p->oldycoordinate = p->ycoordinates;
-
-    if (direction == 'w'){
-        p->xcoordinates -=1;
-
-    }else if(direction == 's'){
-        p->xcoordinates +=1;
-
-    }else if(direction == 'd'){
-        p->ycoordinates +=1;
-
-
-    }else if(direction == 'a') {
-        p->ycoordinates-=1;
-    }else if(direction == 'f') {
-        *stop = true;
-    }else if(direction == 'W'){
-
-
-        p->xcoordinates -=1;
-        *wantoheal = true;
-
-
-    }else if(direction == 'S'){
-
-
-        p->xcoordinates +=1;
-        *wantoheal = true;
-
-
-    }else if(direction == 'A'){
-
-
-        p->ycoordinates-=1;
-        *wantoheal = true;
-
-
-    }else if(direction == 'D'){
-
-        p->ycoordinates +=1;
-        *wantoheal = true;
-
-
-    }
-
-    if (p->xcoordinates < 0) {
-        p->xcoordinates = 0;
-    }
-    if (p->ycoordinates < 0) {
-        p->ycoordinates = 0;
-    }
-    if (p->xcoordinates >= grid_size) {
-        p->xcoordinates = grid_size - 1;
-    }
-    if (p->ycoordinates >= grid_size) {
-        p->ycoordinates = grid_size - 1;
-    }
-
-    grid[p->xcoordinates][p->ycoordinates] = 'P';
-
-    //add the bounderis for version 2
-}
 void Drawgrid(int difficulty, int grid_size,int moves){
 
   struct player p;
@@ -271,8 +163,39 @@ void Drawgrid(int difficulty, int grid_size,int moves){
 
     for(int i = 0; i < difficulty; i++ ){
 
-        object_x_coordinate[i] = rand() % grid_size;
-        object_y_coordinate[i]= rand() % grid_size;
+        //the rand functinn is used to generate random from 0 to the size-1 of the grid_size
+        //if an upper bound in not given the function will use the predefined one
+        int x_coordinate;
+        int y_coordinate;
+        bool equal = true; // declare a boolean variable used for the while loop
+
+        while(equal == true){
+
+            x_coordinate = rand() % grid_size;// generate the x coordinte of one piece of junk
+            y_coordinate = rand() % grid_size; // generate the y coordinate of one piece of junk
+
+            equal = false; // with line i'm assuming that the the are no eqaul coordinate
+
+            //in the first loop is not going to check anything since i is zero and j is zero, is just going to generatethe first junk
+            //in the second loop it check the if the coordinate in postion zero are the same of the one that are just being genereted
+            //in the third loop it will compared the first two coordinate and the newly define coordinate
+            for(int j = 0; j<i; j++){
+
+                if(object_x_coordinate[j] == x_coordinate && object_y_coordinate[j] == y_coordinate){
+
+                    equal = true; // if number are the same set eqaul to false, meaning that it needs to generete a new piece of jjunk
+                    //for that index position
+                }
+            }
+
+
+
+        }
+
+        //assing the newly create variable to the array of coordintes
+
+        object_x_coordinate[i] = x_coordinate;
+        object_y_coordinate[i] = y_coordinate;
 
     }
 

@@ -1,0 +1,6 @@
+The game has ended
+
+YOU LOST
+Final score: 0
+Remaining moves: 75
+Final health: 10
