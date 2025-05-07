@@ -61,6 +61,12 @@ build CMakeFiles/Version_1.dir/movement.c.obj: C_COMPILER__Version_1_unscanned_D
   OBJECT_DIR = CMakeFiles\Version_1.dir
   OBJECT_FILE_DIR = CMakeFiles\Version_1.dir
 
+build CMakeFiles/Version_1.dir/Mapcreation.c.obj: C_COMPILER__Version_1_unscanned_Debug C$:/Spacegame/Version$ 1/Mapcreation.c || cmake_object_order_depends_target_Version_1
+  DEP_FILE = CMakeFiles\Version_1.dir\Mapcreation.c.obj.d
+  FLAGS = -g -std=gnu99 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Version_1.dir
+  OBJECT_FILE_DIR = CMakeFiles\Version_1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Version_1
@@ -69,7 +75,7 @@ build CMakeFiles/Version_1.dir/movement.c.obj: C_COMPILER__Version_1_unscanned_D
 #############################################
 # Link the executable Version_1.exe
 
-build Version_1.exe: C_EXECUTABLE_LINKER__Version_1_Debug CMakeFiles/Version_1.dir/main.c.obj CMakeFiles/Version_1.dir/movement.c.obj
+build Version_1.exe: C_EXECUTABLE_LINKER__Version_1_Debug CMakeFiles/Version_1.dir/main.c.obj CMakeFiles/Version_1.dir/movement.c.obj CMakeFiles/Version_1.dir/Mapcreation.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Version_1.dir

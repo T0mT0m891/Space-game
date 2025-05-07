@@ -1,8 +1,7 @@
 # ninja log v6
-16	1930	7678990503575882	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
-1930	2347	7678990522733674	Version_1.exe	d820df3e1e6b439d
-28	275	7682487285245906	CMakeFiles/Version_1.dir/movement.c.obj	bd72f21b78f7f5e9
-3	280	7682487285001434	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
-280	526	7682487287773256	Version_1.exe	723efebb60c0a549
 10	2840	7682522555567750	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
 2840	3220	7682522583877333	Version_1.exe	723efebb60c0a549
+28	275	7682487285245906	CMakeFiles/Version_1.dir/movement.c.obj	bd72f21b78f7f5e9
+6	276	7683335609987835	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
+6	252	7683336023068047	CMakeFiles/Version_1.dir/Mapcreation.c.obj	bb12f26c6c731b86
+253	525	7683336025534364	Version_1.exe	4761a8287015a1c9

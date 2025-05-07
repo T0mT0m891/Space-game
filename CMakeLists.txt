@@ -5,4 +5,5 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(Version_1 main.c
         Spacegameheader.h
-        movement.c)
+        movement.c
+        Mapcreation.c)
