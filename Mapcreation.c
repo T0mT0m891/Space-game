@@ -10,7 +10,8 @@
 
 void playercreation(int object_x_coordinate[], int object_y_coordinate[], int grid_size, char grid[grid_size][grid_size], struct player *p){
 
-    //this is the version 2.0 of the function
+   //with this line i'm accessing the xcoordinates member of the player structure that is pointed by p
+
     p->xcoordinates = grid_size-2;
     p->ycoordinates = grid_size/ 2;
 
@@ -38,9 +39,9 @@ void asteroidscreation(int grid_size,char grid[grid_size][grid_size], struct ast
 }
 
 void Drawgrid(int difficulty, int grid_size,int moves){
-
-  struct player p;
-    struct score s;
+	//strcut player is the prototype of the structure and p is the variable that refered to it
+  	struct player p;//i'm declarinng a variable p that will represent a single player, with all the charcteristic define in the player structure
+    struct score s;// the variable s contain all the field define inside the structure score
     struct asteroids a;
     struct healthbar h;
 
@@ -49,12 +50,16 @@ void Drawgrid(int difficulty, int grid_size,int moves){
     char grid[grid_size][grid_size];
     int decision;
 
-    bool stopgame = false;
-    bool endgame = false;
-    bool dead = false;
-    bool wantoheal = false;
-    bool finishmove = false;
+   // i'm declaring a boolean variable, a type of variable that can be only true or false
+    bool stopgame = false; // this variable is used to end the game if the user press f
+    bool endgame = false;//this variable ends the game when the player has collected all the available junk
+    bool dead = false;//this variable is used to end the game if the player health is less or equal to zero
+    bool wantoheal = false;//this variable is used to trigger the heal function
+    bool finishmove = false;//this variable is used to end the game if the user finishes all the moves
 
+	//the first part is called initialization, and is used to declare and set the counter for the loop
+    //the second part a condtion that is check each time, before each iteration
+    //the third part is the increment and it runs, after the loop interation
 
     for(int i = 0; i < difficulty; i++ ){
 
@@ -71,7 +76,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
 
             equal = false; // with line i'm assuming that the the are no eqaul coordinate
 
-            //in the first loop is not going to check anything since i is zero and j is zero, is just going to generatethe first junk
+            //in the first loop is not going to check anything since i is zero and j is zero, is just going to generate the first junk
             //in the second loop it check the if the coordinate in postion zero are the same of the one that are just being genereted
             //in the third loop it will compared the first two coordinate and the newly define coordinate
             for(int j = 0; j<i; j++){
@@ -80,6 +85,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
 
                     equal = true; // if number are the same set eqaul to false, meaning that it needs to generete a new piece of jjunk
                     //for that index position
+                    //a break can eventually be added here
                 }
             }
 
@@ -95,7 +101,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
     }
 
 
-
+	 //with these for loop i'm inserting the . inside the grid
     for(int i = 0; i < grid_size; i++ ){
         for(int j = 0; j < grid_size; j++){
 
@@ -105,7 +111,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
 
     };
 
-
+	//i'm inserting in the junk inside the matrix, using the random coordintes that i've genereted
     for(int i = 0; i < difficulty; i++) {
         int x1 = object_x_coordinate[i];
         int y1 = object_y_coordinate[i];
@@ -113,7 +119,8 @@ void Drawgrid(int difficulty, int grid_size,int moves){
     }
 
 
-
+	 //I'm passing the variable p as a pointer to my structure player
+    //This allow my function to have access to the structure, it allows it to make changes to it, that will persist and remain outside the function
     playercreation(object_x_coordinate,object_y_coordinate,grid_size,grid,&p);
     asteroidscreation(grid_size,grid,&a);
 
@@ -121,7 +128,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
     h.health = 10;
     int isjunkthere = difficulty;
 
-
+	//This loop  will continue on working until one of this condtion is no longer false
     while(stopgame == false && endgame == false && dead == false && finishmove == false){
         for(int i = 0; i < grid_size; i++ ){
             for(int j = 0; j < grid_size; j++){
@@ -152,6 +159,7 @@ void Drawgrid(int difficulty, int grid_size,int moves){
         moveplayer(direction,&stopgame,grid_size,grid,&p,&wantoheal);
         if (wantoheal == true && h.health <= 8 ){
 
+          	//the following function allow the user to heal himself with the junk that he collect. if this happen the function generate a new piece of junk in the map
             heal(&h,&p,&s,&isjunkthere,grid_size,grid,object_x_coordinate,object_y_coordinate);
             wantoheal = false;
         }
@@ -175,8 +183,16 @@ void Drawgrid(int difficulty, int grid_size,int moves){
     }
 
     //www.geeksforgeeks.org/fprintf-in-c/
+
+    //im declaring a pointer to a file variable called end, it will create a new file called finalresult.txt and
+    //it will open in it write mode, meaning that the user can write on the following file and in case a file with a similar name already exist
+    //the content of it will be overwritten
+    //fopen will return a pointer to a file
     FILE *end= fopen("hello.txt", "w");
 
+    //writing the desired text in the finalresult file, that is link by the end pointer, so
+    //my string is being send to the text fiel thourght the pointe end
+    //look the file pointed by end and write a string in it
     fprintf(end,"The game has ended\n");
     if(s.score == difficulty){
         fprintf(end,"\nYOU WON!!\n");

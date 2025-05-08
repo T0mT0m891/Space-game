@@ -5,3 +5,6 @@
 6	276	7683335609987835	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
 6	252	7683336023068047	CMakeFiles/Version_1.dir/Mapcreation.c.obj	bb12f26c6c731b86
 253	525	7683336025534364	Version_1.exe	4761a8287015a1c9
+26	2778	7684014078175079	CMakeFiles/Version_1.dir/main.c.obj	ed2bb3d325ae537f
+152	2779	7684014079447472	CMakeFiles/Version_1.dir/movement.c.obj	bd72f21b78f7f5e9
+2779	3399	7684014105705123	Version_1.exe	4761a8287015a1c9
